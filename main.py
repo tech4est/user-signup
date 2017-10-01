@@ -61,13 +61,13 @@ def validate_index():
             email_error = "Not a valid email (Must contain @, no spaces, 3-20 characters)"
 
     if not username_error and not password_error and not verify_error and not email_error:
-        return redirect('/welcome')  #This seems like it needs to refer to an html file???
+        return redirect('/welcome') 
     else:                                                  
-        return render_template(username_error=username_error, password_error=password_error, verify_error=verify_error, email_error=email_error)
+        return render_template('index.html', username_error=username_error, password_error=password_error, verify_error=verify_error, email_error=email_error)
 
-@app.route('/welcome', methods=['POST'])  #This one will also need to include the query parametr in the URL here, I think???
+@app.route('/welcome', methods=['POST'])
 def welcome():
-    username = request.form('username')
-    return render_template('welcome.html')
+    username = request.form['username']
+    return render_template('welcome.html', username=username)
 
 app.run()
