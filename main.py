@@ -1,6 +1,6 @@
 from flask import Flask, request, redirect, render_template
-import cgi
-import os
+# import cgi
+# import os
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
@@ -57,17 +57,17 @@ def validate_index():
     if email is "":
         email = ''
     else:
-        if char_count(email) or contains_space(email):
+        if char_count(email) or contains_space(email) or "@" not in email or "." not in email:
             email_error = "Not a valid email (Must contain @, no spaces, 3-20 characters)"
 
     if not username_error and not password_error and not verify_error and not email_error:
-        return redirect('/welcome') 
+        return redirect('/welcome.html?username={0}'.format(username)) 
     else:                                                  
         return render_template('index.html', username_error=username_error, password_error=password_error, verify_error=verify_error, email_error=email_error)
 
-@app.route('/welcome', methods=['POST'])
+@app.route('/welcome')
 def welcome():
-    username = request.form['username']
+    username = request.args.get('username')
     return render_template('welcome.html', username=username)
 
 app.run()
