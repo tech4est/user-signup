@@ -61,13 +61,15 @@ def validate_index():
             email_error = "Not a valid email (Must contain @, no spaces, 3-20 characters)"
 
     if not username_error and not password_error and not verify_error and not email_error:
-        return redirect('/welcome.html?username={0}'.format(username)) 
+        # return redirect('/welcome.html?username={0}'.format(username)) 
+        return render_template('welcome.html', username=username)
     else:                                                  
         return render_template('index.html', username_error=username_error, password_error=password_error, verify_error=verify_error, email_error=email_error)
 
-@app.route('/welcome')
-def welcome():
-    username = request.args.get('username')
+@app.route("/welcome", methods=['POST'])
+def hello():
+    # username = request.form['username']
+    username = request.args.get('username')    
     return render_template('welcome.html', username=username)
 
 app.run()
